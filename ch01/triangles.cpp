@@ -50,11 +50,6 @@ const GLuint NumVertices = 6;
 
 void init(void)
 {
-    if (glewInit() != GLEW_OK) {
-        std::cerr << "GLEW initialization failed" << std::endl;
-        return;
-    }
-
     static const GLfloat vertices[NumVertices][2] =
         {
             {-0.90, -0.90}, // Triangle 1
@@ -62,8 +57,9 @@ void init(void)
             {-0.90, 0.85},
             {0.90, -0.85}, // Triangle 2
             {0.90, 0.90},
-            {-0.85, 0.90}
-        };
+            {-0.85, 0.90}};
+
+    glCreateVertexArrays(NumVAOs, VAOs);
 
     glCreateBuffers(NumBuffers, Buffers);
 
@@ -79,8 +75,6 @@ void init(void)
     // GLuint program = LoadShaders(shaders);
 
     // glUseProgram(program);
-
-    glGenVertexArrays(NumVAOs, VAOs);
 
     glBindVertexArray(VAOs[Triangles]);
 
@@ -125,12 +119,13 @@ int main(int argc, char **argv)
 
     glfwMakeContextCurrent(window);
 
+    glewInit();
+
     init();
 
     while (!glfwWindowShouldClose(window))
 
     {
-
         // display();
 
         glfwSwapBuffers(window);
